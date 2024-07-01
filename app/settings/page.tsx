@@ -1,9 +1,9 @@
 'use client'
 import { useRouter } from 'next/navigation'
 import { useSearchParams } from 'next/navigation'
-import { FormEvent } from 'react'
+import { FormEvent, Suspense } from 'react'
 
-const page = () => {
+const Page = () => {
 
   const router = useRouter()
   const searchParams = useSearchParams()
@@ -23,7 +23,7 @@ const page = () => {
 
     formData.forEach((value,key) => data[key] = value)
 
-    if(data.mode == 'ai' && data.players > 2){
+    if(data.mode == 'ai' && Number(data.players) > 2){
       return router.push('/?players=2&mode=ai')
     }
 
@@ -72,5 +72,10 @@ const page = () => {
     </section>
   )
 }
+const SettingsPage = () => (
+  <Suspense fallback={<div>Loading...</div>}>
+    <Page />
+  </Suspense>
+);
 
-export default page
+export default SettingsPage;
